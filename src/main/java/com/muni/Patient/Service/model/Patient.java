@@ -30,12 +30,10 @@ public class Patient {
     private String address;
 
     @NotNull
+    @Column(name = "date_of_birth")
     private LocalDate dateofBirth;
 
-    @Column(unique = true)
     @NotNull
-    private long phonenumber;
-
-    @NotNull
+    @Column(name = "registered_date")
     private LocalDate registeredDate;
 }
