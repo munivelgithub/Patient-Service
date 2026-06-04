@@ -19,6 +19,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     @NotNull
     private String name;
     @NotNull
