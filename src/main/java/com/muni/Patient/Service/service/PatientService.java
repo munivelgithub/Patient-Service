@@ -1,5 +1,6 @@
 package com.muni.Patient.Service.service;
 import com.fasterxml.jackson.annotation.OptBoolean;
+import com.muni.Patient.Service.dto.PatientRequestDTO;
 import com.muni.Patient.Service.dto.PatientResponseDTO;
 import com.muni.Patient.Service.mapper.PatientMapper;
 import com.muni.Patient.Service.model.Patient;
@@ -33,5 +34,12 @@ public class PatientService {
             return responseDTO;
         }
         return new PatientResponseDTO();
+    }
+
+    public PatientResponseDTO adduser(PatientRequestDTO dto) {
+        Patient patient=PatientMapper.DTOtoNoraml(dto);
+        patientRepository.save(patient);
+        PatientResponseDTO responseDTO=PatientMapper.toDTO(patient);
+        return responseDTO;
     }
 }
