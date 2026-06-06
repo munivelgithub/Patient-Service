@@ -1,7 +1,7 @@
 package com.muni.Patient.Service.service;
-import com.fasterxml.jackson.annotation.OptBoolean;
 import com.muni.Patient.Service.dto.PatientRequestDTO;
 import com.muni.Patient.Service.dto.PatientResponseDTO;
+import com.muni.Patient.Service.globalException.EmailAlreadyExistException;
 import com.muni.Patient.Service.mapper.PatientMapper;
 import com.muni.Patient.Service.model.Patient;
 import com.muni.Patient.Service.repository.PatientRepository;
@@ -14,6 +14,8 @@ import java.util.UUID;
 @Service
 public class PatientService {
     private PatientRepository patientRepository;
+
+
     public PatientService(PatientRepository patientRepository){
         this.patientRepository=patientRepository;
     }
@@ -37,6 +39,10 @@ public class PatientService {
     }
 
     public PatientResponseDTO adduser(PatientRequestDTO dto) {
+        if(patientRepository.existsByEmail(dto.getEmail())){
+            throw new EmailAlreadyExistException("A patient email is already exist"+dto.getEmail());
+        }
+
         Patient patient=PatientMapper.DTOtoNoraml(dto);
         patientRepository.save(patient);
         PatientResponseDTO responseDTO=PatientMapper.toDTO(patient);
