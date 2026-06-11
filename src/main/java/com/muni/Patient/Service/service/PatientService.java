@@ -48,4 +48,14 @@ public class PatientService {
         PatientResponseDTO responseDTO=PatientMapper.toDTO(patient);
         return responseDTO;
     }
+
+    public PatientResponseDTO findByName(String name){
+        Patient patient=patientRepository.findByNames(name);
+        if(patient!=null){
+            PatientResponseDTO patientResponseDTO=PatientMapper.toDTO(patient);
+            return patientResponseDTO;
+        }
+        return new PatientResponseDTO();
+
+    }
 }

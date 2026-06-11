@@ -39,4 +39,12 @@ public class PatientContoller {
         PatientResponseDTO dto1=patientService.adduser(requestDTO);
         return ResponseEntity.ok().body(dto1);
      }
+     @GetMapping("patient")
+    public ResponseEntity<PatientResponseDTO> findByNames(@RequestParam String name){
+        PatientResponseDTO patientResponseDTO=patientService.findByName(name);
+        return new ResponseEntity<>(patientResponseDTO,HttpStatus.OK);
+     }
 }
+
+
+
