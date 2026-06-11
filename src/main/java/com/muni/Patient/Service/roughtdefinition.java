@@ -1,6 +1,7 @@
 package com.muni.Patient.Service;
 
 public class roughtdefinition {
+
     //differently.
     //
     //1. @PathVariable
