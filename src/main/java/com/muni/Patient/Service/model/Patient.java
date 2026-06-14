@@ -18,8 +18,6 @@ import java.util.UUID;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
-   
     private UUID id;
 
     @NotNull
@@ -39,4 +37,5 @@ public class Patient {
     @NotNull
     @Column(name = "registered_date")
     private LocalDate registeredDate;
+
 }

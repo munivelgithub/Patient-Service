@@ -130,4 +130,67 @@ public class roughtdefinition {
     //GET /patients?city=Chennai   -> Filter by city (@RequestParam)
     //
     //GET /patients?page=1&size=10 -> Pagination (@RequestParam)
+    //Step 1: Create the Stored Procedure in MySQL
+    //
+    //Your procedure has a small issue because name=name compares the parameter with itself.
+    //
+    //DELIMITER $$
+    //
+    //CREATE PROCEDURE getEmployeeByName(IN p_name VARCHAR(30))
+    //BEGIN
+    //    SELECT *
+    //    FROM employee
+    //    WHERE name = p_name;
+    //END $$
+    // call getEmployeeByName(munivel)
+    //
+    //DELIMITER ;
+    //Step 2: Call the Procedure from Repository
+    //
+    //Using @Procedure:
+    //
+    //@Repository
+    //public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    //
+    //    @Procedure(procedureName = "getEmployeeByName")
+    //    List<Employee> getEmployeeByName(String p_name);
+    //}
+    //Alternative: Using Native Query
+    //@Repository
+    //public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    //
+    //    @Query(value = "CALL getEmployeeByName(:name)", nativeQuery = true)
+    //    List<Employee> getEmployeeByName(@Param("name") String name);
+    //}
+    //  The SQL you wrote will work in MySQL, but H2 Database does not support DELIMITER like MySQL.
+    //
+    //In H2, create the procedure differently.
+    //
+    //H2 does not support:
+    //DELIMITER $$
+    //
+    //CREATE PROCEDURE getname(IN p_name VARCHAR(30))
+    //BEGIN
+    //  SELECT * FROM patient WHERE name = p_name;
+    //END $$
+    //
+    //DELIMITER ;
+    //Instead, for H2 use an Alias
+    //CREATE ALIAS GETNAME AS $$
+    //ResultSet getName(Connection conn, String p_name) throws SQLException {
+    //    return conn.createStatement()
+    //               .executeQuery("SELECT * FROM patient WHERE name = '" + p_name + "'");
+    //}
+    //$$;
+    //
+    //However, in Spring Boot projects with H2, it is much more common to use a repository query instead of a stored procedure:
+    //
+    //@Repository
+    //public interface PatientRepository extends JpaRepository<Patient, UUID> {
+    //
+    //    @Query("SELECT p FROM Patient p WHERE p.name = :name")
+    //    Patient findByName(@Param("name") String name);
+    //}
+    //
+    //or simply let Spring Data generate the query:
 }
