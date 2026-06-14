@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -18,6 +17,7 @@ class TestPracticingClassTest {
 
     @Autowired
     private TestPracticingClass test=new TestPracticingClass();
+
 
 //    @BeforeEach
 //    void setUp(){
@@ -39,15 +39,25 @@ class TestPracticingClassTest {
         assertEquals(10,test.addition(5));
 
     }
+    @ParameterizedTest
+    @ValueSource(ints = {2,3,4,5})
+    void test2(int a){
+      test.addition(a);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,2,3,6","2,3,4,9"})
+    void test3(int a,int b, int c,int expected){
+         assertEquals(expected,test.addition(a,b,c));
+    }
+
 
 //    @AfterEach
 //    void close(){
 //        test=null;
 //    }
 
-
 }
-
 
 
 //@SpringBootTest due to i am not mention this so without running an application i can test teh test cases
@@ -227,6 +237,40 @@ class TestPracticingClassTest {
 //        int actual=program.add(a,b,c);
 //        assertEquals(expected, actual);
 //    }
+//In JUnit 5, @ValueSource and @CsvSource are used with @ParameterizedTest to run the same test multiple times with different input values.
+//
+//1. @ValueSource
+//
+//Used when you need only one parameter for each test execution.
+//
+//@ParameterizedTest
+//@ValueSource(strings = {"Munivel", "Sathish"})
+//void test(String name) {
+//    program.mtring(name);
+//}
+//
+//Execution:
+//
+//test("Munivel")
+//test("Sathish")
+//
+//Here, the test method runs 2 times, each time with a different string.
+//
+//2. @CsvSource
+//
+//Used when you need multiple parameters.
+//
+//@ParameterizedTest
+//@CsvSource({
+//    "1,2,3,6",
+//    "3,4,2,9"
+//})
+//void test2(int a, int b, int c, int expected) {
+//    int actual = program.add(a, b, c);
+//    assertEquals(expected, actual);
+//}
+//
+//Execution:
 //    static Stream<Arguments> arrayProvider() {
 //        return Stream.of(
 //                Arguments.of(new int[]{1,2,3}, 4),
@@ -520,4 +564,5 @@ class TestPracticingClassTest {
 //    @ValueSource	Single parameter
 //    @CsvSource	Multiple parameters
 //    @MethodSource	Complex data
-//}
+//
+

@@ -10,4 +10,7 @@ public class TestPracticingClass {
         ab+=a;
         return ab;
     }
+    public int addition(int a, int b, int c){
+        return a+b+c;
+    }
 }

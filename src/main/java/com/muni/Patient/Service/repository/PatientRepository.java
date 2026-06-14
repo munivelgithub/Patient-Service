@@ -14,4 +14,5 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
     boolean existsByEmail(String email);
     @Query(value = "select * from Patient where name=:patient_name",nativeQuery = true)
     Patient findByNames(@Param("patient_name") String name);
+
 }
